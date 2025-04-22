@@ -14,6 +14,18 @@ interface LeaderboardControlsProps {
   setActiveMode: (mode: GameMode) => void;
 }
 
+const toApiGameMode = (mode: string): GameMode => {
+  const map: Record<string, GameMode> = {
+    Practice: 'PRACTICE',
+    KitMap: 'KIT_MAP',
+    Leagues: 'LEAGUES',
+    Bunkers: 'BUNKERS',
+    Soup: 'SOUP',
+  };
+
+  return map[mode] ?? 'PRACTICE';
+};
+
 export const LeaderboardControls: React.FC<LeaderboardControlsProps> = ({
   searchQuery,
   setSearchQuery,
@@ -24,7 +36,13 @@ export const LeaderboardControls: React.FC<LeaderboardControlsProps> = ({
   activeMode,
   setActiveMode
 }) => {
-  const modes: GameMode[] = ['Practice', 'KitMap', 'Leagues', 'Bunkers', 'Soup'];
+  // Los valores del modo ahora deben ser en mayúsculas, como los espera el tipo `GameMode`
+  const modes: GameMode[] = ['PRACTICE', 'KIT_MAP', 'LEAGUES', 'BUNKERS', 'SOUP'];
+
+  const handleModeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const selectedMode = e.target.value;
+    setActiveMode(toApiGameMode(selectedMode)); // Aquí usamos la función para convertir a mayúsculas
+  };
 
   return (
     <div className="bg-white/80 backdrop-blur-sm border border-gray-200 rounded-xl p-6 mb-8 shadow-lg">
@@ -48,7 +66,7 @@ export const LeaderboardControls: React.FC<LeaderboardControlsProps> = ({
           <div className="flex-1">
             <select
               value={activeMode}
-              onChange={(e) => setActiveMode(e.target.value as GameMode)}
+              onChange={handleModeChange} // Cambia al valor correcto
               className="bg-white/50 w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-red-500 focus:outline-none transition-all duration-300"
             >
               {modes.map((mode) => (
@@ -72,7 +90,7 @@ export const LeaderboardControls: React.FC<LeaderboardControlsProps> = ({
             </select>
           </div>
           
-          {activeMode === 'Practice' ? (
+          {activeMode === 'PRACTICE' ? ( // Usa 'PRACTICE' aquí porque ahora es el valor correcto
             <div className="flex-1">
               <button
                 onClick={() => setSortBy('elo')}

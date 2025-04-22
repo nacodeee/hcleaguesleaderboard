@@ -23,9 +23,7 @@ export const PlayerEntry: React.FC<PlayerEntryProps> = ({ player }) => {
   };
 
   return (
-    <tr 
-      className={`mb-4 transition-all duration-300 hover:scale-[1.00] hover:-translate-y-1 group`}
-    >
+    <tr className="mb-4 transition-all duration-300 hover:scale-[1.00] hover:-translate-y-1 group">
       <td colSpan={4} className="p-1">
         <div 
           className={`bg-white/20 backdrop-blur-sm rounded-xl border-2 ${getPositionStyling()} shadow-lg overflow-hidden`}
@@ -52,7 +50,7 @@ export const PlayerEntry: React.FC<PlayerEntryProps> = ({ player }) => {
                 <RankBadge rank={player.rank} />
               </div>
             </div>
-            {player.gameMode === 'Practice' ? (
+            {player.gameMode === 'PRACTICE' ? ( // Usamos 'PRACTICE' en lugar de 'Practice'
               <div className="text-right font-bold text-xl">
                 {player.elo.toLocaleString()} ELO
               </div>
